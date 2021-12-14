@@ -40,7 +40,7 @@ int main(int argc,char *argv[])
   Mat f = imread(imageToRead);          // lit l'image "lena.png"
 // Convert to black and white 
   f = convertImgToGray(f);
-  f = convertImgToGray(f)
+  f = convertImgToGray(f);
 
 
   imshow( windowImage, f );                // l'affiche dans la fenêtre
