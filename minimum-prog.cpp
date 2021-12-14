@@ -9,10 +9,12 @@ using namespace cv;
 using namespace std;
 
 const String windowImage = "TP1";
+const String windowImageEqual = "EqualImage";
 const String windowSlider = "Slider";
 const String windowHistogram = "Histogram";
 const String nameSlider = "slider";
 const String imageToReadDefault = "lena.jpeg";
+const String windowsHistogrammeCumul = "HistogrammeEqual";
 
 vector<double> histogramme(Mat image);
 vector<double> histogramme_cumule(const vector<double> &h_I);
@@ -131,13 +133,17 @@ int main(int argc, char *argv[])
   namedWindow(windowImage); // crée une fenêtre
   namedWindow(windowSlider);
   namedWindow(windowHistogram);
+  namedWindow(windowImageEqual);
 
   createTrackbar(nameSlider, windowSlider, nullptr, 255, NULL); // un slider
   setTrackbarPos(nameSlider, windowSlider, value);
   Mat f = imread(imageToRead); // lit l'image "lena.png"
                                // Convert to black and white
   f = convertImgToGray(f);
-
+  
+  Mat imageEqualize;
+  equalizeHist(f, imageEqualize);
+  
   vector<double> hist;
   hist = histogramme(f);
 
@@ -147,8 +153,19 @@ int main(int argc, char *argv[])
   Mat histMat;
   histMat = afficheHistogrammes(hist, histCumul);
   imshow(windowHistogram, histMat); // l'affiche dans la fenêtre
+  imshow(windowImageEqual, f);
+  
+  vector<double> histEqual;
+  histEqual = histogramme(imageEqualize);
 
-  imshow(windowImage, f); // l'affiche dans la fenêtre
+  vector<double> histCumulEqual;
+  histCumulEqual = histogramme_cumule(histEqual);
+
+  Mat histMatEqual;
+  histMatEqual = afficheHistogrammes(histEqual, histCumulEqual);
+  imshow(windowsHistogrammeCumul, histMatEqual); // l'affiche dans la fenêtre
+
+  imshow(windowImage, imageEqualize); // l'affiche dans la fenêtre
   while (waitKey(50) < 0) // attend une touche
   {                       // Affiche la valeur du slider
     int new_value = getTrackbarPos(nameSlider, windowSlider);
