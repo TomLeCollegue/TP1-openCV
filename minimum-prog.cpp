@@ -12,12 +12,9 @@ const String imageToReadDefault = "lena.jpeg";
 const String windowsEqualizeHistogram = "HistogrammeEqual";
 const String windrowGrayLevel = "Image in gray levels";
 
-void question1b(String imageToRead)
+void question1b(Mat f)
 {
-  Mat f = imread(imageToRead);
-  Mat imageGray;
-
-  imageGray = convertImgToGray(f);
+  Mat imageGray = convertImgToGray(f);
 
   namedWindow(windrowGrayLevel);
   namedWindow(windowImage);
@@ -25,14 +22,9 @@ void question1b(String imageToRead)
   imshow(windrowGrayLevel, imageGray);
 }
 
-void question1c(String imageToRead)
+void question1c(Mat imageGray)
 {
-  //---- convertir l'image en noir et blanc
-  Mat f = imread(imageToRead);
-  Mat imageGray;
-
-  imageGray = convertImgToGray(f);
-
+  //----
   namedWindow(windrowGrayLevel);
   imshow(windrowGrayLevel, imageGray);
   //----
@@ -82,6 +74,11 @@ int main(int argc, char *argv[])
     imageToRead = imageToReadDefault;
   }
 
+  Mat f = imread(imageToRead);
+  Mat imageGray;
+
+  imageGray = convertImgToGray(f);
+
   //---- SLIDER
   int value = 128;
   namedWindow(windowSlider);
@@ -90,10 +87,10 @@ int main(int argc, char *argv[])
   //----
 
   // Question1.b
-  // question1b(imageToRead);
+  // question1b(f);
 
   // Question 1.c
-  question1c(imageToRead);
+  question1c(imageGray);
 
   //---- SLIDER POSITION
   while (waitKey(50) < 0) // attend une touche
