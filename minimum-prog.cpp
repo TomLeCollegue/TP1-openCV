@@ -13,11 +13,31 @@ const String windowHistogram = "Histogram";
 const String nameSlider = "slider";
 const String imageToReadDefault = "lena.jpeg";
 
+
+
 vector<double> histogramme(Mat image);
 vector<double> histogramme_cumule(const vector<double> &h_I);
 Mat afficheHistogrammes(const std::vector<double>& histogramme);
 
 Mat convertImgToGray(Mat mat);
+
+void histogrammeOnWebCam(){
+    VideoCapture cap(0);
+    Mat img;
+    vector<double> hist;
+    Mat histMat;
+    
+    while (true) {
+        cap.read(img);
+        
+        hist = histogramme(img);
+        histMat = afficheHistogrammes(hist);
+        imshow("ImageWebcam", img);
+        imshow("histWebCam", histMat );
+        waitKey(1);
+        
+    }
+}
 
 vector<double> histogramme(Mat image)
 {
@@ -104,6 +124,8 @@ int main(int argc, char *argv[])
   imshow(windowHistogram, histMat); // l'affiche dans la fenêtre
 
   imshow(windowImage, f); // l'affiche dans la fenêtre
+
+  // histogrammeOnWebCam();
   while (waitKey(50) < 0) // attend une touche
   {                       // Affiche la valeur du slider
     int new_value = getTrackbarPos(nameSlider, windowSlider);
