@@ -11,6 +11,6 @@ SET( MAIN_EXEC
 
 
 FOREACH(FILE ${MAIN_EXEC})
-            add_executable( ${FILE} ${FILE}.cpp histograms.cpp utils.cpp)
+            add_executable( ${FILE} ${FILE}.cpp histograms.cpp utils.cpp displaywindows.cpp)
             target_link_libraries( ${FILE} ${OpenCV_LIBS} )
 ENDFOREACH(FILE)
