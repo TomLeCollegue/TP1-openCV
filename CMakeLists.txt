@@ -9,7 +9,8 @@ SET( MAIN_EXEC
      # vous pouvez ajouter d'autres programmes ici
      )
 
+
 FOREACH(FILE ${MAIN_EXEC})
-            add_executable( ${FILE} ${FILE}.cpp )
+            add_executable( ${FILE} ${FILE}.cpp histograms.cpp utils.cpp)
             target_link_libraries( ${FILE} ${OpenCV_LIBS} )
 ENDFOREACH(FILE)
