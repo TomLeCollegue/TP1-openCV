@@ -3,6 +3,7 @@
 #include "utils.hpp"
 #include "histograms.hpp"
 #include "displaywindows.hpp"
+#include "tramage.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -38,6 +39,14 @@ int main(int argc, char *argv[])
   histE = histogramme(VPartimage);
   histCumulE = histogrammeCumul(histE);
   DisplayHistograms(imageEqualized, histE, histCumulE, " Equalized");
+
+  Mat input = convertImgToGray(imageEqualized);
+  Mat outputTramage = input.clone();
+  tramage_floyd_steinberg(input, outputTramage);
+
+  // Display image
+  namedWindow(windowImage + " tramage");
+  imshow(windowImage + " tramage", outputTramage);
 
   // //---- SLIDER
   // int value = 128;
