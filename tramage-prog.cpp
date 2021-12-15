@@ -47,15 +47,30 @@ int main(int argc, char *argv[])
     while (true)
     {
       cap.read(f);
-      Mat input = convertImgToGray(f);
-      Mat outputTramage = input.clone();
-      tramage_floyd_steinberg(input, outputTramage);
+      vector<Mat> splitRGBImages(3);
+      split(f, splitRGBImages);
+
+      Mat outputTramageR = splitRGBImages[0].clone();
+      Mat outputTramageG = splitRGBImages[1].clone();
+      Mat outputTramageB = splitRGBImages[2].clone();
+
+      tramage_floyd_steinberg(splitRGBImages[0], outputTramageR);
+      tramage_floyd_steinberg(splitRGBImages[1], outputTramageG);
+      tramage_floyd_steinberg(splitRGBImages[2], outputTramageB);
+
+      vector<Mat> channels;
+      channels.push_back(outputTramageR);
+      channels.push_back(outputTramageG);
+      channels.push_back(outputTramageB);
+      
+      Mat finalImage;
+      merge(channels, finalImage);
 
       // Display image
       namedWindow(windowImage + " tramage");
       namedWindow("normal webcam");
-      imshow(windowImage + " tramage", outputTramage);
-      imshow("normal webcam", input);
+      imshow(windowImage + " tramage", finalImage);
+      imshow("normal webcam", f);
       /* code */
       waitKey(1);
     }
