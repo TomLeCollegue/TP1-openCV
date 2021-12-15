@@ -65,7 +65,7 @@ Mat afficheHistogrammes(const vector<double> &histogramme, const vector<double> 
 
   // Display Histogramme gauche
   double max = *max_element(histogramme.begin(), histogramme.end());
-  cout << "Max value: " << max << endl;
+  // cout << "Max value: " << max << endl;
 
   for (int line = 0; line < 256; line++)
   {
