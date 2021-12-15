@@ -40,3 +40,11 @@ vector<double> histogrammeCumul(const vector<double> &h_I);
  * @return Mat 
  */
 Mat afficheHistogrammes(const std::vector<double> &histogramme, const vector<double> &histogrammeCumule);
+
+/**
+ * @brief Question 1.c :
+ * Retourne une image egalisée
+ * @param image 
+ * @param histCumul 
+ */
+void equalizeHistogram(Mat image, vector<double>& histCumul);

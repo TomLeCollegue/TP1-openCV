@@ -92,3 +92,21 @@ Mat afficheHistogrammes(const vector<double> &histogramme, const vector<double> 
   }
   return imageHist;
 }
+
+void equalizeHistogram(Mat image, vector<double>& histCumul) {
+  vector<double> L_1CDFs(256);
+  for (int i = 0; i < 256; i++)
+  { 
+    L_1CDFs[i] = round((histCumul[i] / histCumul[255]) * 255);
+  }
+
+  for (int line = 0; line < image.rows; line++)
+  {
+    for (int column = 0; column < image.cols; column++)
+    {
+      int pixelValue = (int)image.at<uchar>(line, column);
+      image.at<uchar>(line, column) = L_1CDFs[pixelValue];
+    }
+  }
+
+}
