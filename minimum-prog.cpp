@@ -43,8 +43,8 @@ void question1c(Mat imageGray)
   //----
 
   //---- Pour l'image égalisée
-  Mat imageEqualize;
-  equalizeHist(imageGray, imageEqualize);
+  Mat imageEqualize = imageGray.clone();
+  equalizeHistogram(imageEqualize, histCumul);
   namedWindow(windowImageEqual);
   imshow(windowImageEqual, imageEqualize);
 
