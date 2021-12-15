@@ -26,22 +26,18 @@ int main(int argc, char *argv[])
 
   if (!webcam)
   {
-    
+    /* code */
     Mat f = imread(imageToRead);
 
-    //Question 2.b
     Mat input = convertImgToGray(f);
     Mat outputTramage = input.clone();
-    tramage_floyd_steinberg_gray(input, outputTramage);
+    tramage_floyd_steinberg(input, outputTramage);
 
     // Display image
     namedWindow(windowImage + " tramage");
     imshow(windowImage + " tramage", outputTramage);
     namedWindow("truc");
     imshow("truc", input);
-
-    //Question 2.c
-    //TODO
   }
   else
   {

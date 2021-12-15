@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 
   // Mat input = convertImgToGray(imageEqualized);
   // Mat outputTramage = input.clone();
-  // tramage_floyd_steinberg_gray(input, outputTramage);
+  // tramage_floyd_steinberg(input, outputTramage);
 
   // // Display image
   // namedWindow(windowImage + " tramage");

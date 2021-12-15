@@ -12,7 +12,7 @@ float couleurLaPlusProche(float pixelValue)
     }
 }
 
-void tramage_floyd_steinberg_gray(Mat &input, Mat &output)
+void tramage_floyd_steinberg(Mat &input, Mat &output)
 {
     Mat calcul;
     input.convertTo(calcul, CV_32FC1, 1 / 255.0);
@@ -33,8 +33,4 @@ void tramage_floyd_steinberg_gray(Mat &input, Mat &output)
         }
     }
     calcul.convertTo(output, CV_8UC1, 255);
-}
-
-Mat tramage_floyd_steinberg(Mat input, vector<Vec3f> colors){
-  //TODO
 }
