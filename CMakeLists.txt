@@ -6,11 +6,12 @@ include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 SET( MAIN_EXEC
      minimum-prog 
+     tramage-prog
      # vous pouvez ajouter d'autres programmes ici
      )
 
 
 FOREACH(FILE ${MAIN_EXEC})
-            add_executable( ${FILE} ${FILE}.cpp histograms.cpp utils.cpp displaywindows.cpp)
+            add_executable( ${FILE} ${FILE}.cpp histograms.cpp utils.cpp displaywindows.cpp tramage.cpp)
             target_link_libraries( ${FILE} ${OpenCV_LIBS} )
 ENDFOREACH(FILE)

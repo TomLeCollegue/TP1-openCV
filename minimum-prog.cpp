@@ -82,13 +82,13 @@ int main(int argc, char *argv[])
     }
   }
 
-  Mat input = convertImgToGray(imageEqualized);
-  Mat outputTramage = input.clone();
-  tramage_floyd_steinberg(input, outputTramage);
+  // Mat input = convertImgToGray(imageEqualized);
+  // Mat outputTramage = input.clone();
+  // tramage_floyd_steinberg(input, outputTramage);
 
-  // Display image
-  namedWindow(windowImage + " tramage");
-  imshow(windowImage + " tramage", outputTramage);
+  // // Display image
+  // namedWindow(windowImage + " tramage");
+  // imshow(windowImage + " tramage", outputTramage);
 
   // //---- SLIDER
   // int value = 128;
