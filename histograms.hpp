@@ -1,5 +1,4 @@
 #pragma once
-
 #include "utils.hpp"
 
 /**
@@ -11,6 +10,14 @@
  * @return Mat 
  */
 Mat convertImgToGray(Mat mat);
+
+/**
+ * @brief Question 1.D
+ * Convertit l'image en entrée en HSV
+ * @param mat 
+ * @return Mat 
+ */
+Mat convertImgToHSV(Mat& mat);
 
 /**
  * @brief Question 1.c : 

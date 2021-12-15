@@ -61,6 +61,50 @@ void question1c(Mat imageGray)
   //----
 }
 
+
+void question1d(Mat image) {
+  namedWindow(windowImage);
+  imshow(windowImage, image);
+  
+  Mat imageHSV = convertImgToHSV(image);
+  vector<Mat> splitHSVImages(3);
+  split(imageHSV, splitHSVImages);
+
+  Mat VImage = splitHSVImages[2];
+
+  vector<double> hist;
+  hist = histogramme(VImage);
+  vector<double> histCumul;
+  histCumul = histogrammeCumul(hist);
+  Mat histMat;
+  histMat = afficheHistogrammes(hist, histCumul);
+  namedWindow(windowHistogram);
+  imshow(windowHistogram, histMat); // l'affiche dans la fenêtre
+
+  Mat imageEqualize = VImage.clone();
+  equalizeHistogram(imageEqualize, histCumul);
+  
+  vector<Mat> channels;
+  channels.push_back(splitHSVImages[0]);
+  channels.push_back(splitHSVImages[1]);
+  channels.push_back(imageEqualize);
+
+  Mat finalImage;
+  merge(channels, finalImage);
+  namedWindow(windowImageEqual);
+  imshow(windowImageEqual, finalImage);
+
+  vector<double> histEqual;
+  histEqual = histogramme(imageEqualize);
+
+  vector<double> histCumulEqual;
+  histCumulEqual = histogrammeCumul(histEqual);
+
+  Mat histMatEqual;
+  histMatEqual = afficheHistogrammes(histEqual, histCumulEqual);
+
+}
+
 int main(int argc, char *argv[])
 {
   // Lire le nom du fichier en argument s'il y en a un.
@@ -90,7 +134,7 @@ int main(int argc, char *argv[])
   // question1b(f);
 
   // Question 1.c
-  question1c(imageGray);
+  question1d(f);
 
   //---- SLIDER POSITION
   while (waitKey(50) < 0) // attend une touche

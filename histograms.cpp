@@ -15,6 +15,21 @@ Mat convertImgToGray(Mat mat)
   return matOutGray;
 }
 
+Mat convertImgToHSV(Mat& mat)
+{
+  Mat matOutGray;
+  if (mat.type() != CV_8UC1)
+  {
+    cvtColor(mat, matOutGray, COLOR_BGR2HSV);
+  }
+  else
+  {
+    cout << "Image déjà en noir et blanc" << endl;
+    matOutGray = mat;
+  }
+  return matOutGray;
+}
+
 vector<double> histogramme(Mat image)
 {
   vector<double> res(256);
