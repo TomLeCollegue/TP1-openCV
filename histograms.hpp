@@ -19,6 +19,15 @@ Mat convertImgToGray(Mat mat);
  */
 Mat convertImgToHSV(Mat& mat);
 
+
+/**
+ * @brief Question 1.D
+ * Convertit l'image en entrée HSV en BGR
+ * @param mat 
+ * @return Mat 
+ */
+Mat convertHSVToBGR(Mat& mat);
+
 /**
  * @brief Question 1.c : 
  * Calcule d'un histogramme simple mesurant la proportion de pixel ayant la même valeur.

@@ -2,108 +2,7 @@
 
 #include "utils.hpp"
 #include "histograms.hpp"
-
-const String windowImage = "Image without filter";
-const String windowImageEqual = "EqualImage";
-const String windowSlider = "Slider";
-const String windowHistogram = "Histograms for gray image";
-const String nameSlider = "slider";
-const String imageToReadDefault = "lena.jpeg";
-const String windowsEqualizeHistogram = "HistogrammeEqual";
-const String windrowGrayLevel = "Image in gray levels";
-
-void question1b(Mat f)
-{
-  Mat imageGray = convertImgToGray(f);
-
-  namedWindow(windrowGrayLevel);
-  namedWindow(windowImage);
-  imshow(windowImage, f);
-  imshow(windrowGrayLevel, imageGray);
-}
-
-void question1c(Mat imageGray)
-{
-  //----
-  namedWindow(windrowGrayLevel);
-  imshow(windrowGrayLevel, imageGray);
-  //----
-
-  //---- Pour l'image non égalisée
-  vector<double> hist;
-  hist = histogramme(imageGray);
-
-  vector<double> histCumul;
-  histCumul = histogrammeCumul(hist);
-
-  Mat histMat;
-  histMat = afficheHistogrammes(hist, histCumul);
-  namedWindow(windowHistogram);
-  imshow(windowHistogram, histMat); // l'affiche dans la fenêtre
-  //----
-
-  //---- Pour l'image égalisée
-  Mat imageEqualize = imageGray.clone();
-  equalizeHistogram(imageEqualize, histCumul);
-  namedWindow(windowImageEqual);
-  imshow(windowImageEqual, imageEqualize);
-
-  vector<double> histEqual;
-  histEqual = histogramme(imageEqualize);
-
-  vector<double> histCumulEqual;
-  histCumulEqual = histogrammeCumul(histEqual);
-
-  Mat histMatEqual;
-  histMatEqual = afficheHistogrammes(histEqual, histCumulEqual);
-  namedWindow(windowsEqualizeHistogram);
-  imshow(windowsEqualizeHistogram, histMatEqual); // l'affiche dans la fenêtre
-  //----
-}
-
-
-void question1d(Mat image) {
-  namedWindow(windowImage);
-  imshow(windowImage, image);
-  
-  Mat imageHSV = convertImgToHSV(image);
-  vector<Mat> splitHSVImages(3);
-  split(imageHSV, splitHSVImages);
-
-  Mat VImage = splitHSVImages[2];
-
-  vector<double> hist;
-  hist = histogramme(VImage);
-  vector<double> histCumul;
-  histCumul = histogrammeCumul(hist);
-  Mat histMat;
-  histMat = afficheHistogrammes(hist, histCumul);
-  namedWindow(windowHistogram);
-  imshow(windowHistogram, histMat); // l'affiche dans la fenêtre
-
-  Mat imageEqualize = VImage.clone();
-  equalizeHistogram(imageEqualize, histCumul);
-  
-  vector<Mat> channels;
-  channels.push_back(splitHSVImages[0]);
-  channels.push_back(splitHSVImages[1]);
-  channels.push_back(imageEqualize);
-
-  Mat finalImage;
-  merge(channels, finalImage);
-  namedWindow(windowImageEqual);
-  imshow(windowImageEqual, finalImage);
-
-  vector<double> histEqual;
-  histEqual = histogramme(imageEqualize);
-
-  vector<double> histCumulEqual;
-  histCumulEqual = histogrammeCumul(histEqual);
-
-  Mat histMatEqual;
-  histMatEqual = afficheHistogrammes(histEqual, histCumulEqual);
-
-}
+#include "displaywindows.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -119,35 +18,44 @@ int main(int argc, char *argv[])
   }
 
   Mat f = imread(imageToRead);
-  Mat imageGray;
 
-  imageGray = convertImgToGray(f);
+  // Mat imageGray;
+  // imageGray = convertImgToGray(f);
 
-  //---- SLIDER
-  int value = 128;
-  namedWindow(windowSlider);
-  createTrackbar(nameSlider, windowSlider, nullptr, 255, NULL); // un slider
-  setTrackbarPos(nameSlider, windowSlider, value);
-  //----
+  // Create histograms
+  vector<double> hist;
+  vector<double> histCumul;
+  hist = histogramme(f);
+  histCumul = histogrammeCumul(hist);
+  DisplayHistograms(f, hist, histCumul, "");
 
-  // Question1.b
-  // question1b(f);
+  Mat VPartimage;
+  Mat imageEqualized = f.clone();
+  equalizeColorImages(imageEqualized, VPartimage);
 
-  // Question 1.c
-  question1d(f);
+  vector<double> histE;
+  vector<double> histCumulE;
+  histE = histogramme(VPartimage);
+  histCumulE = histogrammeCumul(histE);
+  DisplayHistograms(imageEqualized, histE, histCumulE, " Equalized");
 
-  //---- SLIDER POSITION
+  // //---- SLIDER
+  // int value = 128;
+  // namedWindow(windowSlider);
+  // createTrackbar(nameSlider, windowSlider, nullptr, 255, NULL); // un slider
+  // setTrackbarPos(nameSlider, windowSlider, value);
+  // //----
+  // //---- SLIDER POSITION
   while (waitKey(50) < 0) // attend une touche
   {                       // Affiche la valeur du slider
-    int new_value = getTrackbarPos(nameSlider, windowSlider);
-    if (value != new_value)
-    {
-      value = new_value;
-      cout << "value=" << value << endl;
-    }
+    // int new_value = getTrackbarPos(nameSlider, windowSlider);
+    // if (value != new_value)
+    // {
+    //   value = new_value;
+    //   cout << "value=" << value << endl;
+    // }
   }
-  //---- 
-
+  //----
 
   return 0;
 }

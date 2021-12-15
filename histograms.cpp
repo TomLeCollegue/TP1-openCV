@@ -18,15 +18,13 @@ Mat convertImgToGray(Mat mat)
 Mat convertImgToHSV(Mat& mat)
 {
   Mat matOutGray;
-  if (mat.type() != CV_8UC1)
-  {
-    cvtColor(mat, matOutGray, COLOR_BGR2HSV);
-  }
-  else
-  {
-    cout << "Image déjà en noir et blanc" << endl;
-    matOutGray = mat;
-  }
+  cvtColor(mat, matOutGray, COLOR_BGR2HSV);
+  return matOutGray;
+}
+
+Mat convertHSVToBGR(Mat& mat) {
+  Mat matOutGray;
+  cvtColor(mat, matOutGray, COLOR_HSV2BGR);
   return matOutGray;
 }
 
