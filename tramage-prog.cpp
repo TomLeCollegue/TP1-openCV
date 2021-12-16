@@ -46,15 +46,15 @@ int main(int argc, char *argv[])
     // Display image
     namedWindow(windowImage + " tramage");
     imshow(windowImage + " tramage", finalImage);
-    namedWindow("truc");
-    imshow("truc", f);
+    namedWindow("default file");
+    imshow("default file", f);
   }
   else
   {
     VideoCapture cap(0);
     Mat f;
 
-    cout << colors.size() << endl;
+    cout << "Le nombre de couleurs choisi pour le tramage générique : "<< colors.size() << endl;
     while (true)
     {
       cap.read(f);
