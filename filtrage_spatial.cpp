@@ -11,8 +11,8 @@ int main(int argc, char *argv[])
     namedWindow(mainWindow);     // crée une fenêtre
     
     //---- SLIDER
-    int alpha = 128;
-    createTrackbar(nameSlider, mainWindow, nullptr, 255, NULL); // un slider
+    int alpha = 20;
+    createTrackbar(nameSlider, mainWindow, nullptr, 200, NULL); // un slider
     setTrackbarPos(nameSlider, mainWindow, alpha);
     //----
 
@@ -42,6 +42,13 @@ int main(int argc, char *argv[])
         else if (asciicode == 'm')
         {
             cv::medianBlur(input, input, 3);
+            imshow(mainWindow, input); // l'affiche dans la fenêtre
+        }
+        else if (asciicode == 's')
+        {
+            float alpha1 = (float) alpha / 100.0;
+            cout << alpha1 << endl;
+            input = laplacienM(input, alpha/100);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
         }
         imshow(mainWindow, input); 

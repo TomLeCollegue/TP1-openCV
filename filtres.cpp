@@ -9,3 +9,12 @@ Mat filtreM(Mat input)
     cv::filter2D(input, output, -1, kernel / 16.0);
     return output;
 }
+
+Mat laplacienM(Mat input, float alpha) {
+    float kernelValues[] = {0.0, 1.0, 0.0, 1.0, -4.0, 1.0, 0.0, 1.0, 0.0};
+    Mat kernel(3,3, CV_32FC1, kernelValues);
+    Mat output;
+
+    cv::filter2D(input, output, -1, kernel * alpha);
+    return output;
+}
