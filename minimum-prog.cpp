@@ -5,7 +5,6 @@
 #include "displaywindows.hpp"
 #include "tramage.hpp"
 
-
 int main(int argc, char *argv[])
 {
   // Lire le nom du fichier en argument s'il y en a un.
