@@ -31,9 +31,9 @@ int main(int argc, char *argv[])
   colors.push_back(Vec3f({1.0, 1.0, 1.0}));
 
   // Add Red, Blue, Green to the colors available
-  //colors.push_back(Vec3f({1.0, 0.0, 0.0}));
-  //colors.push_back(Vec3f({0.0, 1.0, 0.0}));
-  //colors.push_back(Vec3f({0.0, 0.0, 1.0}));
+  colors.push_back(Vec3f({1.0, 0.0, 0.0}));
+  colors.push_back(Vec3f({0.0, 1.0, 0.0}));
+  colors.push_back(Vec3f({0.0, 0.0, 1.0}));
 
   if (!webcam)
   {
@@ -58,7 +58,6 @@ int main(int argc, char *argv[])
     while (true)
     {
       cap.read(f);
-
       Mat finalImage;
       finalImage = tramage_floyd_steinberg(f, colors);
 

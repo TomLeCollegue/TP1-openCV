@@ -7,6 +7,7 @@ include_directories( ${OpenCV_INCLUDE_DIRS} )
 SET( MAIN_EXEC
      minimum-prog 
      tramage-prog
+     filtrage_spacial
      # vous pouvez ajouter d'autres programmes ici
      )
 
