@@ -21,12 +21,46 @@ Mat filtreM(Mat input);
  */
 Mat contrasteM(Mat input, float alpha);
 
-Mat sobelX(Mat input);
+/**
+ * @brief TP2 Question 5
+ * 
+ * @param input 
+ * @return Mat 
+ */
+Mat sobelX(Mat input, float delta);
 
-Mat sobelY(Mat input);
+/**
+ * @brief TP2 Question 5
+ * 
+ * @param input 
+ * @return Mat 
+ */
+Mat sobelY(Mat input, float delta);
 
+/**
+ * @brief TP2 Question 6
+ * 
+ * @param input 
+ * @return Mat 
+ */
 Mat gradient(const Mat& input);
 
+/**
+ * @brief TP 2 Question 7
+ * 
+ * @param input 
+ * @param seuil 
+ * @return Mat 
+ */
 Mat contour(Mat input, float seuil);
 
+/**
+ * @brief TP2 Question 8 : En cours
+ * 
+ * @param input 
+ * @param seuil 
+ * @param longueur 
+ * @param proportion 
+ * @return Mat 
+ */
 Mat esquisse(Mat input, float seuil, float longueur, float proportion);
