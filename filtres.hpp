@@ -1,4 +1,5 @@
 #pragma once
+
 #include "utils.hpp"
 
 /**
@@ -8,7 +9,7 @@
  * @param input 
  * @return Mat 
  */
-Mat filtreM(Mat input); 
+Mat filtreM(Mat input);
 
 /**
  * @brief TP2 Question 4 : 
@@ -18,4 +19,8 @@ Mat filtreM(Mat input);
  * @param alpha 
  * @return Mat 
  */
-Mat laplacienM(Mat input, float alpha);
+Mat contrasteM(Mat input, float alpha);
+
+Mat sobelX(Mat input);
+
+Mat sobelY(Mat input);

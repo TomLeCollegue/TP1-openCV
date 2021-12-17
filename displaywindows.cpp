@@ -1,7 +1,6 @@
 #include "displaywindows.hpp"
 
-void DisplayHistograms(Mat& image, vector<double>& hist, vector<double>& histCumul, String windowArgName)
-{
+void DisplayHistograms(Mat &image, vector<double> &hist, vector<double> &histCumul, String windowArgName) {
     // Display Histograms
     Mat histMat;
     histMat = afficheHistogrammes(hist, histCumul);
@@ -13,8 +12,7 @@ void DisplayHistograms(Mat& image, vector<double>& hist, vector<double>& histCum
     imshow(windowImage + windowArgName, image);
 }
 
-void equalizeColorImages(Mat& image, Mat& Vimage)
-{
+void equalizeColorImages(Mat &image, Mat &Vimage) {
     Mat imageHSV = convertImgToHSV(image);
     vector<Mat> splitHSVImages(3);
     split(imageHSV, splitHSVImages);
@@ -33,5 +31,5 @@ void equalizeColorImages(Mat& image, Mat& Vimage)
 
     Mat finalImage;
     merge(channels, finalImage);
-    image = convertHSVToBGR(finalImage);  
+    image = convertHSVToBGR(finalImage);
 }

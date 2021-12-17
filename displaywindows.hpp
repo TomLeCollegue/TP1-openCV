@@ -12,6 +12,6 @@ const String imageToReadDefault = "lena.jpeg";
 const String windowsEqualizeHistogram = "HistogrammeEqual";
 const String windrowGrayLevel = "Image in gray levels";
 
-void DisplayHistograms(Mat& image, vector<double>& hist, vector<double>& histCumul, String windowArgName);
+void DisplayHistograms(Mat &image, vector<double> &hist, vector<double> &histCumul, String windowArgName);
 
-void equalizeColorImages(Mat& image, Mat& Vimage);
+void equalizeColorImages(Mat &image, Mat &Vimage);

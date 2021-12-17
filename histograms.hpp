@@ -1,4 +1,5 @@
 #pragma once
+
 #include "utils.hpp"
 
 /**
@@ -17,7 +18,7 @@ Mat convertImgToGray(Mat mat);
  * @param mat 
  * @return Mat 
  */
-Mat convertImgToHSV(Mat& mat);
+Mat convertImgToHSV(Mat &mat);
 
 
 /**
@@ -26,7 +27,7 @@ Mat convertImgToHSV(Mat& mat);
  * @param mat 
  * @return Mat 
  */
-Mat convertHSVToBGR(Mat& mat);
+Mat convertHSVToBGR(Mat &mat);
 
 /**
  * @brief Question 1.c : 
@@ -63,4 +64,4 @@ Mat afficheHistogrammes(const std::vector<double> &histogramme, const vector<dou
  * @param image 
  * @param histCumul 
  */
-void equalizeHistogram(Mat image, vector<double>& histCumul);
+void equalizeHistogram(Mat image, vector<double> &histCumul);
