@@ -27,7 +27,7 @@ Mat contrasteM(Mat input, float alpha);
  * @param input 
  * @return Mat 
  */
-Mat sobelX(Mat input, float delta);
+Mat sobelX(Mat input);
 
 /**
  * @brief TP2 Question 5
@@ -35,7 +35,7 @@ Mat sobelX(Mat input, float delta);
  * @param input 
  * @return Mat 
  */
-Mat sobelY(Mat input, float delta);
+Mat sobelY(Mat input);
 
 /**
  * @brief TP2 Question 6

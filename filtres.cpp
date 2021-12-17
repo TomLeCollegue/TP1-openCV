@@ -21,25 +21,25 @@ Mat contrasteM(Mat input, float alpha) {
     return output;
 }
 
-Mat sobelX(Mat input, float delta) {
+Mat sobelX(Mat input) {
     float kernelValues[] = {-0.25, 0.0, 0.25, -0.5, 0.0, 0.5, -0.25, 0.0, 0.25};
     Mat kernel(3, 3, CV_32FC1, kernelValues);
     Mat output;
-    cv::filter2D(input, output, -1, kernel, Point(-1, -1), delta);
+    cv::filter2D(input, output, -1, kernel, Point(-1, -1), 128);
     return output;
 }
 
-Mat sobelY(Mat input, float delta) {
+Mat sobelY(Mat input) {
     float kernelValues[] = {-0.25, -0.5, -0.25, 0.0, 0.0, 0.0, 0.25, 0.5, 0.25};
     Mat kernel(3, 3, CV_32FC1, kernelValues);
     Mat output;
-    cv::filter2D(input, output, -1, kernel, Point(-1, -1), delta);
+    cv::filter2D(input, output, -1, kernel, Point(-1, -1), 128);
     return output;
 }
 
 Mat gradient(const Mat &input) {
-    Mat inputX = sobelX(input, 0.0);
-    Mat inputY = sobelY(input, 0.0);
+    Mat inputX = sobelX(input);
+    Mat inputY = sobelY(input);
 
     inputX.convertTo(inputX, CV_32FC1, 1.0);
     inputY.convertTo(inputY, CV_32FC1, 1.0);
