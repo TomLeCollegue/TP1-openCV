@@ -21,25 +21,25 @@ Mat contrasteM(Mat input, float alpha) {
     return output;
 }
 
-Mat sobelX(Mat input) {
+Mat sobelX(Mat input, float delta) {
     float kernelValues[] = {-0.25, 0.0, 0.25, -0.5, 0.0, 0.5, -0.25, 0.0, 0.25};
     Mat kernel(3, 3, CV_32FC1, kernelValues);
     Mat output;
-    cv::filter2D(input, output, -1, kernel, Point(-1, -1), 128);
+    cv::filter2D(input, output, -1, kernel, Point(-1, -1), delta);
     return output;
 }
 
-Mat sobelY(Mat input) {
+Mat sobelY(Mat input, float delta) {
     float kernelValues[] = {-0.25, -0.5, -0.25, 0.0, 0.0, 0.0, 0.25, 0.5, 0.25};
     Mat kernel(3, 3, CV_32FC1, kernelValues);
     Mat output;
-    cv::filter2D(input, output, -1, kernel, Point(-1, -1), 128);
+    cv::filter2D(input, output, -1, kernel, Point(-1, -1), delta);
     return output;
 }
 
 Mat gradient(const Mat &input) {
-    Mat inputX = sobelX(input);
-    Mat inputY = sobelY(input);
+    Mat inputX = sobelX(input, 0.0);
+    Mat inputY = sobelY(input, 0.0);
 
     inputX.convertTo(inputX, CV_32FC1, 1.0);
     inputY.convertTo(inputY, CV_32FC1, 1.0);
@@ -48,8 +48,8 @@ Mat gradient(const Mat &input) {
 
     for (int line = 0; line < input.rows; line++) {
         for (int column = 0; column < input.cols; column++) {
-            float valueX = inputX.at<float>(line, column) - 128.0f;
-            float valueY = inputY.at<float>(line, column) - 128.0f;
+            float valueX = inputX.at<float>(line, column);
+            float valueY = inputY.at<float>(line, column);
             output.at<float>(line, column) = sqrt(valueX * valueX + valueY * valueY);
         }
     }

@@ -8,7 +8,8 @@ const String sliderPropor = "Proportion trait (%)";
 const String sliderLongueur = "Longueur trait (%)";
 const String imageToReadDefault = "lena.jpeg";
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     namedWindow(mainWindow); // crée une fenêtre
 
     //---- SLIDER
@@ -38,91 +39,136 @@ int main(int argc, char *argv[]) {
     String imageToRead;
     bool webcam = false;
 
-    if (argc != 1) {
-        if (std::string(argv[1]) == "webcam") {
+    if (argc != 1)
+    {
+        if (std::string(argv[1]) == "webcam")
+        {
             webcam = true;
-        } else {
+        }
+        else
+        {
             imageToRead = argv[1];
         }
-    } else {
+    }
+    else
+    {
         imageToRead = imageToReadDefault;
     }
 
     int function = 'i';
     VideoCapture cap(0);
     Mat input;
-    if(!webcam) {
+    if (!webcam)
+    {
         input = imread(imageToRead);
         if (input.channels() == 3)
-           cv::cvtColor(input, input, COLOR_BGR2GRAY);
+        {
+            cv::cvtColor(input, input, COLOR_BGR2GRAY);
+        }
     }
 
-    while (true) {
-        if(webcam) {
+    while (true)
+    {
+        if (webcam)
+        {
             cap.read(input);
             cvtColor(input, input, COLOR_BGR2GRAY);
         }
+        else
+        {
+            function = 'i';
+        }
 
         int new_value = getTrackbarPos(nameSlider, mainWindow);
-        if (alpha != new_value) {
+        if (alpha != new_value)
+        {
             alpha = new_value;
             cout << "alpha= " << alpha << " %" << endl;
         }
 
         int newSeuil = getTrackbarPos(sliderSeuil, mainWindow);
-        if (seuil != newSeuil) {
+        if (seuil != newSeuil)
+        {
             seuil = newSeuil;
             cout << "Seuil= " << seuil << endl;
         }
 
         int keycode = waitKey(50);
         int asciicode = keycode & 0xff;
-        if (asciicode == 'q') {
+        if (asciicode == 'q')
+        {
             break;
-        } else if (asciicode == 'a'
-                   || asciicode == 'm'
-                   || asciicode == 's'
-                   || asciicode == 'x'
-                   || asciicode == 'y'
-                   || asciicode == 'g'
-                   || asciicode == 'c'
-                   ) {
+        }
+        else if (asciicode == 'a' || asciicode == 'm' || asciicode == 's' || asciicode == 'x' || asciicode == 'y' || asciicode == 'g' || asciicode == 'c' || asciicode == 'r')
+        {
             function = asciicode;
         }
 
-        if (function == 'a') {
+        if (function == 'a')
+        {
             // Q2
             input = filtreM(input);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
-        } else if (function == 'm') {
+        }
+        else if (function == 'm')
+        {
             // Q3
             medianBlur(input, input, 9);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
-        } else if (function == 's') {
+        }
+        else if (function == 's')
+        {
             // Q4
-            float alpha1 = (float) alpha / 100.0;
+            float alpha1 = (float)alpha / 100.0;
             input = contrasteM(input, alpha1);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
-        } else if (function == 'x') {
-            input = sobelX(input);
+        }
+        else if (function == 'x')
+        {
+            input = sobelX(input, 128.0);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
-        } else if (function == 'y') {
-            input = sobelY(input);
+        }
+        else if (function == 'y')
+        {
+            input = sobelY(input, 128.0);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
-        } else if (function == 'g') {
+        }
+        else if (function == 'g')
+        {
             input = gradient(input);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
-        } else if (function == 'c') {
-            medianBlur(input,input, 9);
+        }
+        else if (function == 'c')
+        {
+            medianBlur(input, input, 9);
             input = contour(input, seuil);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
-        } else if (function == 'e') {
+        }
+        else if (function == 'e')
+        {
 
             imshow(mainWindow, input); // l'affiche dans la fenêtre
+        }
+        else if (function == 'r')
+        {
+            if (!webcam)
+            {
+                input = imread(imageToRead);
+                if (input.channels() == 3)
+                {
+                    cv::cvtColor(input, input, COLOR_BGR2GRAY);
+                }
+                imshow(mainWindow, input);
+            }
+            else
+            {
+                cap.read(input);
+                cvtColor(input, input, COLOR_BGR2GRAY);
+            }
+            
         }
 
         imshow(mainWindow, input);
     }
-
     imwrite("result.png", input); // sauvegarde le résultat
 }
