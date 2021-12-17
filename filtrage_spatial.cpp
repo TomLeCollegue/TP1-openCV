@@ -4,6 +4,8 @@
 const String mainWindow = "Youpi";
 const String sliderSeuil = "Seuil T";
 const String nameSlider = "alpha (en %)";
+const String sliderPropor = "Proportion trait (%)";
+const String sliderLongueur = "Longueur trait (%)";
 const String imageToReadDefault = "lena.jpeg";
 
 int main(int argc, char *argv[]) {
@@ -11,18 +13,31 @@ int main(int argc, char *argv[]) {
 
     //---- SLIDER
     int alpha = 60;
-    createTrackbar(nameSlider, mainWindow, nullptr, 200, NULL); // un slider
+    createTrackbar(nameSlider, mainWindow, nullptr, 200, nullptr);
     setTrackbarPos(nameSlider, mainWindow, alpha);
     //----
 
     //---- SLIDER
     int seuil = 40;
-    createTrackbar(sliderSeuil, mainWindow, nullptr, 200, NULL); // un slider
+    createTrackbar(sliderSeuil, mainWindow, nullptr, 200, nullptr);
     setTrackbarPos(sliderSeuil, mainWindow, seuil);
+    //----
+
+    //---- SLIDER
+    int proportionTrait = 40;
+    createTrackbar(sliderPropor, mainWindow, nullptr, 100, nullptr);
+    setTrackbarPos(sliderPropor, mainWindow, proportionTrait);
+    //----
+
+    //---- SLIDER
+    int longueur = 40;
+    createTrackbar(sliderLongueur, mainWindow, nullptr, 1000, nullptr);
+    setTrackbarPos(sliderLongueur, mainWindow, proportionTrait);
     //----
 
     String imageToRead;
     bool webcam = false;
+
     if (argc != 1) {
         if (std::string(argv[1]) == "webcam") {
             webcam = true;
@@ -34,15 +49,19 @@ int main(int argc, char *argv[]) {
     }
 
     int function = 'i';
-
-    //if (input.channels() == 3)
-    //    cv::cvtColor(input, input, COLOR_BGR2GRAY);
-
     VideoCapture cap(0);
     Mat input;
+    if(!webcam) {
+        input = imread(imageToRead);
+        if (input.channels() == 3)
+           cv::cvtColor(input, input, COLOR_BGR2GRAY);
+    }
+
     while (true) {
-        cap.read(input);
-        cvtColor(input, input, COLOR_BGR2GRAY);
+        if(webcam) {
+            cap.read(input);
+            cvtColor(input, input, COLOR_BGR2GRAY);
+        }
 
         int new_value = getTrackbarPos(nameSlider, mainWindow);
         if (alpha != new_value) {
@@ -77,7 +96,7 @@ int main(int argc, char *argv[]) {
             imshow(mainWindow, input); // l'affiche dans la fenêtre
         } else if (function == 'm') {
             // Q3
-            cv::medianBlur(input, input, 3);
+            medianBlur(input, input, 9);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
         } else if (function == 's') {
             // Q4
@@ -94,7 +113,11 @@ int main(int argc, char *argv[]) {
             input = gradient(input);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
         } else if (function == 'c') {
+            medianBlur(input,input, 9);
             input = contour(input, seuil);
+            imshow(mainWindow, input); // l'affiche dans la fenêtre
+        } else if (function == 'e') {
+
             imshow(mainWindow, input); // l'affiche dans la fenêtre
         }
 

@@ -28,3 +28,5 @@ Mat sobelY(Mat input);
 Mat gradient(const Mat& input);
 
 Mat contour(Mat input, float seuil);
+
+Mat esquisse(Mat input, float seuil, float longueur, float proportion);
