@@ -48,8 +48,8 @@ Mat gradient(const Mat &input) {
 
     for (int line = 0; line < input.rows; line++) {
         for (int column = 0; column < input.cols; column++) {
-            float valueX = inputX.at<float>(line, column) - 128.0f;
-            float valueY = inputY.at<float>(line, column) - 128.0f;
+            float valueX = inputX.at<float>(line, column) - 128.0;
+            float valueY = inputY.at<float>(line, column) - 128.0;
             output.at<float>(line, column) = sqrt(valueX * valueX + valueY * valueY);
         }
     }
@@ -77,18 +77,59 @@ Mat contour(Mat input, float seuil) {
                 if (Mlaplac.at<float>(line, column) * Mlaplac.at<float>(line - 1, column) < 0
                     || Mlaplac.at<float>(line, column) * Mlaplac.at<float>(line + 1, column) < 0
                     || Mlaplac.at<float>(line, column) * Mlaplac.at<float>(line, column + 1) < 0
-                    || Mlaplac.at<float>(line, column) * Mlaplac.at<float>(line, column - 1) < 0)
-                {
-                    output.at<float>(line,column) = 0.0;
+                    || Mlaplac.at<float>(line, column) * Mlaplac.at<float>(line, column - 1) < 0) {
+                    output.at<float>(line, column) = 0.0;
                 } else {
-                    output.at<float>(line,column) = 255.0;
+                    output.at<float>(line, column) = 255.0;
                 }
             } else {
-                output.at<float>(line,column) = 255.0;
+                output.at<float>(line, column) = 255.0;
             }
         }
     }
 
     output.convertTo(output, CV_8UC1);
     return output;
+}
+
+float randO1() {
+    return rand() / (double) RAND_MAX;
+}
+
+Mat esquisse(Mat input, float seuil, float l, float t) {
+    Mat contourMFinal(input.rows, input.cols, CV_32FC1, Scalar(255));
+
+    Mat contourM = contour(input, seuil);
+    contourM.convertTo(contourM, CV_32FC1, 1.0);
+
+    Mat gradientM = gradient(input);
+    gradientM.convertTo(gradientM, CV_32FC1, 1.0);
+
+    Mat inputX = sobelX(input);
+    inputX.convertTo(inputX, CV_32FC1, 1.0);
+
+    Mat inputY = sobelY(input);
+    inputY.convertTo(inputY, CV_32FC1, 1.0);
+
+    for (int line = 1; line < input.rows - 1; line++) {
+        for (int column = 1; column < input.cols - 1; column++) {
+            if (contourM.at<float>(line, column) < 128) {
+                if (randO1() < t / 100.0) {
+                    float valueY = inputY.at<float>(line, column);
+                    float valueX = inputX.at<float>(line, column);
+                    float theta = atan2(valueY - 128, valueX - 128) + (M_PI / 2) + (0.02 * (randO1() - 0.5));
+                    float g = gradientM.at<float>(line, column);
+                    float lprime = (g/255.0) * (l/100.0);
+
+
+                    Point point1 = Point(column + lprime * cos(theta), line + lprime * sin(theta));
+                    Point point2 = Point(column - lprime * cos(theta), line - lprime * sin(theta));
+                    cv::line(contourMFinal, point1, point2, Scalar(0));
+                }
+            }
+        }
+    }
+
+    contourMFinal.convertTo(contourMFinal, CV_8UC1);
+    return contourMFinal;
 }

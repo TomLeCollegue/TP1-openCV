@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
 
     //---- SLIDER
     int seuil = 40;
-    createTrackbar(sliderSeuil, mainWindow, nullptr, 200, nullptr);
+    createTrackbar(sliderSeuil, mainWindow, nullptr, 100, nullptr);
     setTrackbarPos(sliderSeuil, mainWindow, seuil);
     //----
 
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 
     //---- SLIDER
     int longueur = 40;
-    createTrackbar(sliderLongueur, mainWindow, nullptr, 1000, nullptr);
+    createTrackbar(sliderLongueur, mainWindow, nullptr, 3000, nullptr);
     setTrackbarPos(sliderLongueur, mainWindow, proportionTrait);
     //----
 
@@ -51,14 +51,14 @@ int main(int argc, char *argv[]) {
     int function = 'i';
     VideoCapture cap(0);
     Mat input;
-    if(!webcam) {
+    if (!webcam) {
         input = imread(imageToRead);
         if (input.channels() == 3)
-           cv::cvtColor(input, input, COLOR_BGR2GRAY);
+            cv::cvtColor(input, input, COLOR_BGR2GRAY);
     }
 
     while (true) {
-        if(webcam) {
+        if (webcam) {
             cap.read(input);
             cvtColor(input, input, COLOR_BGR2GRAY);
         }
@@ -75,6 +75,18 @@ int main(int argc, char *argv[]) {
             cout << "Seuil= " << seuil << endl;
         }
 
+        int newLongueur = getTrackbarPos(sliderLongueur, mainWindow);
+        if (longueur != newLongueur) {
+            longueur = newLongueur;
+            cout << "Longueur= " << longueur << endl;
+        }
+
+        int newProp = getTrackbarPos(sliderPropor, mainWindow);
+        if (proportionTrait != newProp) {
+            proportionTrait = newProp;
+            cout << "proportion trait= " << proportionTrait << endl;
+        }
+
         int keycode = waitKey(50);
         int asciicode = keycode & 0xff;
         if (asciicode == 'q') {
@@ -86,7 +98,8 @@ int main(int argc, char *argv[]) {
                    || asciicode == 'y'
                    || asciicode == 'g'
                    || asciicode == 'c'
-                   ) {
+                   || asciicode == 'e'
+                ) {
             function = asciicode;
         }
 
@@ -113,11 +126,11 @@ int main(int argc, char *argv[]) {
             input = gradient(input);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
         } else if (function == 'c') {
-            medianBlur(input,input, 9);
+            medianBlur(input, input, 9);
             input = contour(input, seuil);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
         } else if (function == 'e') {
-
+            input = esquisse(input, seuil, longueur, proportionTrait);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
         }
 
