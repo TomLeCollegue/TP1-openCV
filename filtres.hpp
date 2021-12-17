@@ -26,3 +26,5 @@ Mat sobelX(Mat input);
 Mat sobelY(Mat input);
 
 Mat gradient(const Mat& input);
+
+Mat contour(Mat input, float seuil);

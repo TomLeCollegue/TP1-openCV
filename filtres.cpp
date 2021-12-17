@@ -25,7 +25,7 @@ Mat sobelX(Mat input) {
     float kernelValues[] = {-0.25, 0.0, 0.25, -0.5, 0.0, 0.5, -0.25, 0.0, 0.25};
     Mat kernel(3, 3, CV_32FC1, kernelValues);
     Mat output;
-    cv::filter2D(input, output, -1, kernel, Point(-1,-1), 128);
+    cv::filter2D(input, output, -1, kernel, Point(-1, -1), 128);
     return output;
 }
 
@@ -33,11 +33,11 @@ Mat sobelY(Mat input) {
     float kernelValues[] = {-0.25, -0.5, -0.25, 0.0, 0.0, 0.0, 0.25, 0.5, 0.25};
     Mat kernel(3, 3, CV_32FC1, kernelValues);
     Mat output;
-    cv::filter2D(input, output, -1, kernel, Point(-1,-1), 128);
+    cv::filter2D(input, output, -1, kernel, Point(-1, -1), 128);
     return output;
 }
 
-Mat gradient(const Mat& input) {
+Mat gradient(const Mat &input) {
     Mat inputX = sobelX(input);
     Mat inputY = sobelY(input);
 
@@ -54,5 +54,41 @@ Mat gradient(const Mat& input) {
         }
     }
     output.convertTo(output, CV_8UC1, 1.0);
+    return output;
+}
+
+Mat contour(Mat input, float seuil) {
+    Mat inputFloat = input.clone();
+    input.convertTo(inputFloat, CV_32FC1);
+
+    Mat Mlaplac;
+    Mat Mgradient = gradient(input);
+    Mgradient.convertTo(Mgradient, CV_32FC1);
+    Mat output = Mgradient.clone();
+
+    float kernelValues[] = {0.0, 1.0, 0.0, 1.0, -4.0, 1.0, 0.0, 1.0, 0.0};
+    Mat kernel(3, 3, CV_32FC1, kernelValues);
+    cv::filter2D(inputFloat, Mlaplac, -1, kernel);
+    Mlaplac.convertTo(Mlaplac, CV_32FC1);
+
+    for (int line = 1; line < input.rows - 1; line++) {
+        for (int column = 1; column < input.cols - 1; column++) {
+            if (Mgradient.at<float>(line, column) > seuil) {
+                if (Mlaplac.at<float>(line, column) * Mlaplac.at<float>(line - 1, column) < 0
+                    || Mlaplac.at<float>(line, column) * Mlaplac.at<float>(line + 1, column) < 0
+                    || Mlaplac.at<float>(line, column) * Mlaplac.at<float>(line, column + 1) < 0
+                    || Mlaplac.at<float>(line, column) * Mlaplac.at<float>(line, column - 1) < 0)
+                {
+                    output.at<float>(line,column) = 0.0;
+                } else {
+                    output.at<float>(line,column) = 255.0;
+                }
+            } else {
+                output.at<float>(line,column) = 255.0;
+            }
+        }
+    }
+
+    output.convertTo(output, CV_8UC1);
     return output;
 }

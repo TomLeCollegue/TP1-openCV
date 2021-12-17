@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     //----
 
     //---- SLIDER
-    int seuil = 60;
+    int seuil = 40;
     createTrackbar(sliderSeuil, mainWindow, nullptr, 200, NULL); // un slider
     setTrackbarPos(sliderSeuil, mainWindow, seuil);
     //----
@@ -64,6 +64,9 @@ int main(int argc, char *argv[]) {
             imshow(mainWindow, input); // l'affiche dans la fenêtre
         } else if (asciicode == 'g') {
             input = gradient(input);
+            imshow(mainWindow, input); // l'affiche dans la fenêtre
+        } else if (asciicode == 'c') {
+            input = contour(input, seuil);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
         }
         imshow(mainWindow, input);
