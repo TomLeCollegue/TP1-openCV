@@ -24,3 +24,5 @@ Mat contrasteM(Mat input, float alpha);
 Mat sobelX(Mat input);
 
 Mat sobelY(Mat input);
+
+Mat gradient(const Mat& input);

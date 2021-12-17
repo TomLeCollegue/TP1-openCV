@@ -2,7 +2,7 @@
 #include "filtres.hpp"
 
 const String mainWindow = "Youpi";
-const String windowSlider = "Slider";
+const String sliderSeuil = "Seuil T";
 const String nameSlider = "alpha (en %)";
 const String imageToReadDefault = "lena.jpeg";
 
@@ -13,6 +13,12 @@ int main(int argc, char *argv[]) {
     int alpha = 60;
     createTrackbar(nameSlider, mainWindow, nullptr, 200, NULL); // un slider
     setTrackbarPos(nameSlider, mainWindow, alpha);
+    //----
+
+    //---- SLIDER
+    int seuil = 60;
+    createTrackbar(sliderSeuil, mainWindow, nullptr, 200, NULL); // un slider
+    setTrackbarPos(sliderSeuil, mainWindow, seuil);
     //----
 
     String imageToReadName;
@@ -55,6 +61,9 @@ int main(int argc, char *argv[]) {
             imshow(mainWindow, input); // l'affiche dans la fenêtre
         } else if (asciicode == 'y') {
             input = sobelY(input);
+            imshow(mainWindow, input); // l'affiche dans la fenêtre
+        } else if (asciicode == 'g') {
+            input = gradient(input);
             imshow(mainWindow, input); // l'affiche dans la fenêtre
         }
         imshow(mainWindow, input);
